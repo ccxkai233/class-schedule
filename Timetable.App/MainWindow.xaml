@@ -59,8 +59,8 @@
 
             <Grid Grid.Row="1" Margin="16,0,16,16" DataContext="{Binding TodayViewModel}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <!-- Left: Today's Schedule -->

@@ -16,6 +16,7 @@ public partial class TodayViewModel : ObservableObject
     private readonly ISpeechService _speechService;
     private readonly TimerService _timerService;
     private readonly IConfigService _configService;
+    private readonly Action? _showWindowAction;
 
     public ObservableCollection<TodaySlotViewModel> TodaySlots { get; } = new();
 
@@ -45,13 +46,15 @@ public partial class TodayViewModel : ObservableObject
         INotificationService notificationService,
         ISpeechService speechService,
         TimerService timerService,
-        IConfigService configService)
+        IConfigService configService,
+        Action? showWindowAction = null)
     {
         _scheduleService = scheduleService;
         _notificationService = notificationService;
         _speechService = speechService;
         _timerService = timerService;
         _configService = configService;
+        _showWindowAction = showWindowAction;
 
         _configService.ConfigReloaded += (_, _) => RebuildTodaySchedule();
         _timerService.Tick += OnTick;
@@ -187,6 +190,11 @@ public partial class TodayViewModel : ObservableObject
         }
 
         _notificationService.ShowInAppReminder(title, message);
+
+        if (_configService.Config.Meta.ShowWindowOnReminder)
+        {
+            _showWindowAction?.Invoke();
+        }
 
         if (_speechService is SpeechService speechServiceImpl)
         {

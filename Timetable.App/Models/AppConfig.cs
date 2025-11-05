@@ -21,6 +21,7 @@ public class Meta
     public string SpeechVoice { get; set; } = "ZH-CN";
     public List<int> PreAlertMinutes { get; set; } = new() { 5, 0 };
     public List<int> PostAlertMinutes { get; set; } = new() { 0 };
+    public bool ShowWindowOnReminder { get; set; } = true;
 }
 
 public class TimeSlotConfig

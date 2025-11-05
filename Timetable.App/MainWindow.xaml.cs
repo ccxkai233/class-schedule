@@ -18,7 +18,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        // DataContext is set in XAML
+        DataContext = new MainViewModel(ShowAndActivate);
 
         _notifyIcon = new Forms.NotifyIcon();
         var iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/Resources/icon.ico"))?.Stream;
@@ -34,7 +34,6 @@ public partial class MainWindow : Window
         contextMenu.Items.Add("退出", null, Exit_Click);
         _notifyIcon.ContextMenuStrip = contextMenu;
 
-        StateChanged += MainWindow_StateChanged;
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -60,14 +59,6 @@ public partial class MainWindow : Window
         ShowAndActivate();
     }
 
-    private void MainWindow_StateChanged(object? sender, EventArgs e)
-    {
-        if (WindowState == WindowState.Minimized)
-        {
-            Hide();
-            _notifyIcon.Visible = true;
-        }
-    }
 
     private void NotifyIcon_MouseClick(object? sender, Forms.MouseEventArgs e)
     {

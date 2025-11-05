@@ -9,9 +9,6 @@
         Title="电子课程表" Height="800" Width="1280"
         Background="Transparent" Foreground="White"
         WindowStyle="None" AllowsTransparency="True" WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="WindowControlButton" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>

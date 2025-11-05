@@ -9,7 +9,7 @@ public partial class MainViewModel : ObservableObject
 {
     public TodayViewModel TodayViewModel { get; }
 
-    public MainViewModel()
+    public MainViewModel(Action? showWindowAction = null)
     {
         // In a real application with dependency injection, these services would be injected.
         // For simplicity here, we'll new them up. This will be refined later.
@@ -22,6 +22,6 @@ public partial class MainViewModel : ObservableObject
         INotificationService notificationService = new NotificationService();
         TimerService timerService = new TimerService();
 
-        TodayViewModel = new TodayViewModel(scheduleService, notificationService, speechService, timerService, configService);
+        TodayViewModel = new TodayViewModel(scheduleService, notificationService, speechService, timerService, configService, showWindowAction);
     }
 }

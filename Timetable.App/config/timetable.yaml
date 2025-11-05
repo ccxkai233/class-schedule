@@ -9,6 +9,7 @@ meta:                           # 元信息
   speech_voice: "ZH-CN"         # 语音引擎（系统默认即可）
   pre_alert_minutes: [3, 0]      # 开始前 N 分钟提醒
   post_alert_minutes: [0]       # 结束后 N 分钟提醒 (0 表示准时结束时提醒)
+  show_window_on_reminder: true # 在提醒时是否自动弹出主窗口
 
 subjects:                       # 课程科目清单（id 用于引用）
   - { id: math,  name: "数学" }
@@ -31,10 +32,10 @@ slots:
   - { id: s3, start: "10:30", end: "11:30" }
   # 中午
   - { id: lunch, start: "11:30", end: "12:00" }
-  - { id: nap,   start: "12:00", end: "13:12" }
+  - { id: nap,   start: "12:00", end: "13:00" }
   # 下午
-  - { id: s4, start: "13:00", end: "13:13" }
-  - { id: s5, start: "13:14", end: "15:15" }
+  - { id: s4, start: "13:00", end: "13:46" }
+  - { id: s5, start: "14:15", end: "15:15" }
   - { id: s6, start: "15:30", end: "16:30" }
   # 晚上
   - { id: dinner, start: "17:30", end: "18:00" }

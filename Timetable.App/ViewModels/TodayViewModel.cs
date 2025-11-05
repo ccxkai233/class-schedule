@@ -118,7 +118,16 @@ public partial class TodayViewModel : ObservableObject
         else
         {
             CurrentSubjectName = "空闲时间";
-            CountdownText = string.Empty;
+            var nextSlot = TodaySlots.FirstOrDefault(s => s.StartTime > currentTimeOfDay);
+            if (nextSlot != null)
+            {
+                var remaining = nextSlot.StartTime - currentTimeOfDay;
+                CountdownText = $"至下节课: {remaining:hh\\:mm\\:ss}";
+            }
+            else
+            {
+                CountdownText = string.Empty;
+            }
             NextSubjectText = FindNextUpcomingSubjectText(currentTimeOfDay);
         }
     }

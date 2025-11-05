@@ -19,117 +19,64 @@ subjects:                       # 课程科目清单（id 用于引用）
   - { id: cs_os, name: "408-操作系统" }
   - { id: cs_cn, name: "408-计算机网络" }
   - { id: cs_ca, name: "408-计算机组成原理" }
-  - { id: lunch, name: "午饭" }
-  - { id: dinner, name: "晚饭" }
-  - { id: nap,   name: "午休" }
+  - { id: lunch, name: "午饭 🍱" }
+  - { id: dinner, name: "晚饭 🍚" }
+  - { id: nap,   name: "午休 😴" }
 
 # 一天内的时间段定义（可自定义增删改）
 # time 使用 24 小时制，闭开区间 [start, end)
 slots:
-  # 上午
-  - { id: s1, start: "08:00", end: "09:00" }
-  - { id: s2, start: "09:15", end: "10:15" }
-  - { id: s3, start: "10:30", end: "11:30" }
-  # 中午
-  - { id: lunch, start: "11:30", end: "12:00" }
-  - { id: nap,   start: "12:00", end: "13:00" }
-  # 下午
-  - { id: s4, start: "13:00", end: "13:46" }
-  - { id: s5, start: "14:15", end: "15:15" }
-  - { id: s6, start: "15:30", end: "16:30" }
-  # 晚上
-  - { id: dinner, start: "17:30", end: "18:00" }
-  - { id: s7, start: "18:30", end: "19:30" }
-  - { id: s8, start: "19:45", end: "20:45" }
-
+  - { id: t1, start: "08:00", end: "09:00" }
+  - { id: t2, start: "09:10", end: "10:00" }
+  - { id: t3, start: "10:10", end: "11:00" }
+  - { id: lunch, start: "11:00", end: "11:50" }
+  - { id: t4, start: "11:50", end: "12:50" }
+  - { id: t5, start: "13:00", end: "14:00" }
+  - { id: t6, start: "14:00", end: "14:30" }
+  - { id: nap, start: "14:30", end: "15:10" }
+  - { id: t7, start: "15:10", end: "16:10" }
+  - { id: t8, start: "16:20", end: "17:20" }
+  - { id: t9, start: "17:20", end: "18:10" }
+  - { id: dinner, start: "18:10", end: "19:00" }
+  - { id: t10, start: "19:10", end: "20:10" }
+  - { id: t11, start: "20:20", end: "21:20" }
+  - { id: t12, start: "21:30", end: "22:30" }
 
 # 轮换组：同一时间段按天轮换的课程顺序
-# 例：四天轮换 408 四门课，顺序固定为 ds -> os -> cn -> ca
 rotations:
   - name: cs_cycle
-    subjects: [cs_ds, cs_os, cs_cn, cs_ca]  # 长度 = 周期
-    start_date: "2025-01-01"                # 单独设置可覆盖 meta.start_date
-    skip_weekend: true                      # true=遇周末不计入轮换（只在工作日推进）
+    subjects: [cs_ds, cs_os, cs_cn, cs_ca]
+    skip_days: [Sunday] # 只跳过周日
 
 # 基础周计划：按星期定义每个时间段默认课程（subject 或 rotation）
 # 周一=1，周日=7
 weekly_plan:
-  1:   # 周一
-    s1: { subject: eng }
-    s2: { rotation: cs_cycle }
-    s3: { subject: math }
-    s4: { subject: pol }
-    s5: { subject: eng }
-    s6: { rotation: cs_cycle }
-    s7: { subject: math }
-    s8: { subject: pol }
+  1: &daily_plan # 定义一个锚点，代表每日通用计划
+    t1: { subject: math }
+    t2: { subject: math }
+    t3: { subject: eng }
     lunch: { subject: lunch }
+    t4: { subject: eng }
+    t5: { subject: math }
+    t6: { subject: eng, note: "轻松复习 / 听力 / 单词" }
     nap: { subject: nap }
+    t7: { rotation: cs_cycle }
+    t8: { rotation: cs_cycle }
+    t9: { rotation: cs_cycle }
     dinner: { subject: dinner }
-  2:   # 周二
-    s1: { subject: math }
-    s2: { rotation: cs_cycle }
-    s3: { subject: eng }
-    s4: { subject: pol }
-    s5: { subject: math }
-    s6: { rotation: cs_cycle }
-    s7: { subject: eng }
-    s8: { subject: pol }
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
-  3:   # 周三
-    s1: { subject: pol }
-    s2: { rotation: cs_cycle }
-    s3: { subject: math }
-    s4: { subject: eng }
-    s5: { subject: pol }
-    s6: { rotation: cs_cycle }
-    s7: { subject: math }
-    s8: { subject: eng }
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
-  4:   # 周四
-    s1: { subject: eng }
-    s2: { rotation: cs_cycle }
-    s3: { subject: pol }
-    s4: { subject: math }
-    s5: { subject: eng }
-    s6: { rotation: cs_cycle }
-    s7: { subject: pol }
-    s8: { subject: math }
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
-  5:   # 周五
-    s1: { subject: math }
-    s2: { rotation: cs_cycle }
-    s3: { subject: eng }
-    s4: { subject: pol }
-    s5: { subject: math }
-    s6: { rotation: cs_cycle }
-    s7: { subject: eng }
-    s8: { subject: pol }
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
-  6:   # 周六
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
-  7:   # 周日
-    lunch: { subject: lunch }
-    nap: { subject: nap }
-    dinner: { subject: dinner }
+    t10: { subject: eng }
+    t11: { subject: math }
+    t12: { subject: pol }
 
+  # 将周一的计划应用到其他所有天
+  2: *daily_plan
+  3: *daily_plan
+  4: *daily_plan
+  5: *daily_plan
+  6: *daily_plan
+  7: *daily_plan
 
 # 特定日期的临时覆盖（优先级最高），例如法定假日、模拟考试等
-# date-only=全天；也可指定单个 slot
 date_overrides:
-  - date: "2025-05-01"                # 劳动节放假，全天无课
+  - date: "2025-12-25" # 示例：圣诞节放假
     all_day_off: true
-  - date: "2025-06-15"
-    slots:
-      s2: { subject: math }                         # 周计划本来是轮换，这天改为数学
-      s6: { subject: pol, note: "晚间政治专项" }

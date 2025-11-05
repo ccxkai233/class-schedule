@@ -49,11 +49,22 @@ public class ScheduleService : IScheduleService
         foreach (var rotationConfig in config.Rotations)
         {
             var startDate = rotationConfig.StartDate ?? config.Meta.StartDate;
+            var skipDays = new List<DayOfWeek>();
+            if (rotationConfig.SkipDays != null)
+            {
+                skipDays.AddRange(rotationConfig.SkipDays);
+            }
+            else if (rotationConfig.SkipWeekend)
+            {
+                skipDays.Add(DayOfWeek.Saturday);
+                skipDays.Add(DayOfWeek.Sunday);
+            }
+
             _rotations[rotationConfig.Name] = new Rotation(
                 rotationConfig.Name,
                 rotationConfig.Subjects,
                 startDate,
-                rotationConfig.SkipWeekend);
+                skipDays);
         }
     }
 
@@ -113,9 +124,7 @@ public class ScheduleService : IScheduleService
         }
 
         var startDate = rotation.StartDate;
-        int n = rotation.SkipWeekend
-            ? CountBusinessDays(startDate, targetDate)
-            : targetDate.DayNumber - startDate.DayNumber;
+        int n = CountEffectiveDays(startDate, targetDate, rotation.SkipDays);
 
         if (n < 0) n = 0; // If target is before start date, use the first subject
 
@@ -124,13 +133,13 @@ public class ScheduleService : IScheduleService
         return rotation.Subjects[n % rotation.Subjects.Count];
     }
 
-    private static int CountBusinessDays(DateOnly from, DateOnly to)
+    private static int CountEffectiveDays(DateOnly from, DateOnly to, List<DayOfWeek> skipDays)
     {
         if (from >= to) return 0;
         int days = 0;
         for (var d = from; d < to; d = d.AddDays(1))
         {
-            if (d.DayOfWeek != DayOfWeek.Saturday && d.DayOfWeek != DayOfWeek.Sunday)
+            if (!skipDays.Contains(d.DayOfWeek))
             {
                 days++;
             }

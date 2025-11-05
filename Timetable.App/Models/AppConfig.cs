@@ -36,7 +36,8 @@ public class RotationConfig
     public string Name { get; set; } = string.Empty;
     public List<string> Subjects { get; set; } = new();
     public DateOnly? StartDate { get; set; }
-    public bool SkipWeekend { get; set; }
+    public bool SkipWeekend { get; set; } // For backward compatibility
+    public List<DayOfWeek>? SkipDays { get; set; }
 }
 
 public class PlanEntry

@@ -95,23 +95,32 @@ public partial class TodayViewModel : ObservableObject
             if (CurrentSlot != null) CurrentSlot.IsCurrent = true;
         }
 
-        UpdateCurrentSlotInfo(currentTimeOfDay);
-        CheckAndFireReminders(now);
-        _lastTick = now;
-    }
+        // Update progress for all slots
+        foreach (var slot in TodaySlots)
+        {
+            if (currentTimeOfDay >= slot.EndTime)
+            {
+                slot.ProgressPercent = 100;
+            }
+            else if (currentTimeOfDay >= slot.StartTime && currentTimeOfDay < slot.EndTime)
+            {
+                var totalDuration = slot.EndTime - slot.StartTime;
+                var elapsed = currentTimeOfDay - slot.StartTime;
+                slot.ProgressPercent = totalDuration.TotalSeconds > 0 ? (elapsed.TotalSeconds / totalDuration.TotalSeconds) * 100 : 0;
+            }
+            else
+            {
+                slot.ProgressPercent = 0;
+            }
+        }
 
-    private void UpdateCurrentSlotInfo(TimeSpan currentTimeOfDay)
-    {
+        // Update current slot specific info
         if (CurrentSlot != null)
         {
             CurrentSubjectName = CurrentSlot.SubjectName;
             var remaining = CurrentSlot.EndTime - currentTimeOfDay;
             CountdownText = $"-{remaining:mm\\:ss}";
-
-            var totalDuration = CurrentSlot.EndTime - CurrentSlot.StartTime;
-            var elapsed = currentTimeOfDay - CurrentSlot.StartTime;
-            CurrentSlot.ProgressPercent = totalDuration.TotalSeconds > 0 ? (elapsed.TotalSeconds / totalDuration.TotalSeconds) * 100 : 0;
-
+            
             var nextSlot = TodaySlots.FirstOrDefault(s => s.StartTime >= CurrentSlot.EndTime && s.Model.Subject != null);
             NextSubjectText = nextSlot != null ? $"下一节: {nextSlot.SubjectName} ({nextSlot.TimeRange})" : "今天课程已结束";
         }
@@ -130,6 +139,9 @@ public partial class TodayViewModel : ObservableObject
             }
             NextSubjectText = FindNextUpcomingSubjectText(currentTimeOfDay);
         }
+        
+        CheckAndFireReminders(now);
+        _lastTick = now;
     }
 
     private string FindNextUpcomingSubjectText(TimeSpan currentTimeOfDay)

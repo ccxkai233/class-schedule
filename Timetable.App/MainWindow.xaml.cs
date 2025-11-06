@@ -33,7 +33,7 @@ public partial class MainWindow : Window
         contextMenu.Items.Add("显示", null, ShowWindow_Click);
         contextMenu.Items.Add("退出", null, Exit_Click);
         _notifyIcon.ContextMenuStrip = contextMenu;
-
+        _notifyIcon.Visible = true;
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -42,7 +42,6 @@ public partial class MainWindow : Window
         {
             e.Cancel = true;
             Hide();
-            _notifyIcon.Visible = true;
         }
         base.OnClosing(e);
     }
@@ -74,7 +73,6 @@ public partial class MainWindow : Window
         Show();
         WindowState = WindowState.Normal;
         Activate();
-        _notifyIcon.Visible = false;
     }
 
     private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)

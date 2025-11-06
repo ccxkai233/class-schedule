@@ -19,9 +19,9 @@ subjects:                       # 课程科目清单（id 用于引用）
   - { id: cs_os, name: "408-操作系统" }
   - { id: cs_cn, name: "408-计算机网络" }
   - { id: cs_ca, name: "408-计算机组成原理" }
-  - { id: lunch, name: "午饭 🍱" }
-  - { id: dinner, name: "晚饭 🍚" }
-  - { id: nap,   name: "午休 😴" }
+  - { id: lunch, name: "午饭" }
+  - { id: dinner, name: "晚饭" }
+  - { id: nap,   name: "午休" }
 
 # 一天内的时间段定义（可自定义增删改）
 # time 使用 24 小时制，闭开区间 [start, end)
@@ -36,9 +36,9 @@ slots:
   - { id: nap, start: "14:30", end: "15:10" }
   - { id: t7, start: "15:10", end: "16:10" }
   - { id: t8, start: "16:20", end: "17:20" }
-  - { id: t9, start: "17:20", end: "18:10" }
-  - { id: dinner, start: "18:10", end: "19:00" }
-  - { id: t10, start: "19:10", end: "20:10" }
+  - { id: t9, start: "17:30", end: "18:30" }
+  - { id: t10, start: "18:40", end: "19:40" }
+  - { id: dinner, start: "19:40", end: "20:20" }
   - { id: t11, start: "20:20", end: "21:20" }
   - { id: t12, start: "21:30", end: "22:30" }
 
@@ -64,8 +64,8 @@ weekly_plan:
     t8: { rotation: cs_cycle }
     t9: { rotation: cs_cycle }
     dinner: { subject: dinner }
-    t10: { subject: eng }
-    t11: { subject: math }
+    t10: { subject: math }
+    t11: { subject: eng }
     t12: { subject: pol }
 
   # 将周一的计划应用到其他所有天
